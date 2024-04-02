@@ -52,10 +52,11 @@ strokeCount = {
     'ㅘ': 4,
     'ㅝ': 4,
     'ㅞ': 5,
-    'ㅙ': 5
+    'ㅙ': 5,
+    '': 0
 }
 
-def hangulDecomp(s):
+def syllableDecomp(s):
     SIndex = s - SBase #4340 
     LIndex = math.floor(SIndex / NCount) #7
     VIndex = math.floor((SIndex % NCount) / TCount) #8
@@ -63,10 +64,18 @@ def hangulDecomp(s):
     LPart = LBase + LIndex #4359
     VPart = VBase + VIndex #4457
     TPart = 0
+    l = chr(LPart)
+    v = chr(TPart)
+    t = ''
     if TIndex > 0:  
         TPart = TBase + TIndex # batchim 
-
+        t = chr(TPart)
+    numStrokes = strokeCount[l] + strokeCount[v] + strokeCount[t]
+    return numStrokes
 
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8080, debug=True)
+
+test1 = "한"
+print(syllableDecomp(test1))
